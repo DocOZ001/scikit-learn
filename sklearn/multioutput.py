@@ -14,8 +14,6 @@ extends single output estimators to multioutput estimators.
 #
 # License: BSD 3 clause
 
-from abc import ABCMeta
-
 import numpy as np
 import scipy.sparse as sp
 from abc import ABCMeta, abstractmethod
@@ -309,7 +307,7 @@ class MultiOutputClassifier(MultiOutputEstimator, ClassifierMixin):
 
     Attributes
     ----------
-    estimators_ : list of `n_output` estimators
+    estimators_ : list of ``n_output`` estimators
         Estimators used for predictions.
     """
 
@@ -318,7 +316,7 @@ class MultiOutputClassifier(MultiOutputEstimator, ClassifierMixin):
 
     def predict_proba(self, X):
         """Probability estimates.
-        Returns prediction probabilites for each class of each output.
+        Returns prediction probabilities for each class of each output.
 
         Parameters
         ----------
@@ -370,7 +368,7 @@ class MultiOutputClassifier(MultiOutputEstimator, ClassifierMixin):
         return np.mean(np.all(y == y_pred, axis=1))
 
 
-class ClassifierChain(BaseEstimator):
+class ClassifierChain(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
     """A multi-label model that arranges binary classifiers into a chain.
 
     Each model makes a prediction in the order specified by the chain using
@@ -420,7 +418,7 @@ class ClassifierChain(BaseEstimator):
     Attributes
     ----------
     classes_ : list
-        A list of arrays of length len(estimators_) containing the
+        A list of arrays of length ``len(estimators_)`` containing the
         class labels for each estimator in the chain.
 
     estimators_ : list
@@ -456,7 +454,7 @@ class ClassifierChain(BaseEstimator):
         self : object
             Returns self.
         """
-        X, Y = check_X_y(X, Y,  multi_output=True, accept_sparse=True)
+        X, Y = check_X_y(X, Y, multi_output=True, accept_sparse=True)
 
         random_state = check_random_state(self.random_state)
         check_array(X, accept_sparse=True)
